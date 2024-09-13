@@ -1,67 +1,39 @@
 class Scooter {
   // scooter code here
-  static nextSerial = 1; //Create Serial numbers
+  static nextSerial = 1;
 
   constructor(station) {
-    this._station = station;
-    this._user = null;
-    this._serial = Scooter.nextSerial++; // Static usege
-    this._charge = 100;
-    this._isBroken = false;
-  }
-  
-  //Use getters and setters for accessing properties
-  get station() {
-    return this._station;
-  }
-
-  get user() {
-    return this._user;
-  }
-
-  get charge() {
-    return this._charge;
-  }
-
-  get isBroken() {
-    return this._isBroken;
-  }
-
-  set isBroken(value) {
-    this._isBroken = value;
+    this.station = station;
+    this.user = null;
+    this.serial = Scooter.nextSerial++;
+    this.charge = 100; // Initially fully charged
+    this.isBroken = false;
   }
 
   rent(user) {
-    if (this._charge > 20 && !this._isBroken) {
-      this._station = null;
-      this._user = user;
-    } else if (this._charge <= 20) {
+    if (this.charge <= 20) {
       throw new Error('Scooter needs to charge');
-    } else if (this._isBroken) {
+    }
+    if (this.isBroken) {
       throw new Error('Scooter needs repair');
     }
+    if (this.user !== null) {
+      throw new Error('Scooter already rented');
+    }
+
+    this.user = user;
+    this.station = null;
+    console.log(`Scooter ${this.serial} is rented to ${user.username}`);
   }
 
   dock(station) {
-    this._station = station;
-    this._user = null;
-  }
+    if (this.station) {
+      throw new Error('Scooter already at station');
+    }
 
-  recharge() {
-    const rechargeInterval = setInterval(() => {
-      this._charge += 10;
-      if (this._charge >= 100) {
-        this._charge = 100;
-        clearInterval(rechargeInterval);
-      }
-    }, 1000);
-  }
-
-  requestRepair() {
-    setTimeout(() => {
-      this._isBroken = false;
-      console.log(`Scooter ${this._serial} repair completed.`);
-    }, 5000); // Simulate repair after 5 seconds
+    this.station = station;
+    this.user = null;
+    console.log(`Scooter ${this.serial} is docked at ${station}`);
   }
 }
 

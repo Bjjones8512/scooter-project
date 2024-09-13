@@ -1,35 +1,24 @@
 class User {
   // User code here
   constructor(username, password, age) {
-    this._username = username;
-    this._password = password;
-    this._age = age;
-    this._loggedIn = false;
-  }
-
-  // Getter methods
-  get username() {
-    return this._username;
-  }
-
-  get age() {
-    return this._age;
-  }
-
-  get loggedIn() {
-    return this._loggedIn;
+    this.username = username;
+    this.password = password;
+    this.age = age;
+    this.loggedIn = false;
   }
 
   login(password) {
-    if (this._password === password) {
-      this._loggedIn = true;
+    if (this.password === password) {
+      this.loggedIn = true;
+      console.log(`${this.username} has been logged in.`);
     } else {
       throw new Error('Incorrect password');
     }
   }
 
   logout() {
-    this._loggedIn = false;
+    this.loggedIn = false;
+    console.log(`${this.username} has been logged out.`);
   }
 }
 
